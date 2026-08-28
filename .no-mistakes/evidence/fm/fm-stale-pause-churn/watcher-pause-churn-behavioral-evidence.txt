@@ -1,0 +1,28 @@
+Watcher stale/pause/escalation churn fix - behavioral evidence
+Branch: fm/fm-stale-pause-churn   Target: 3ea8ca66
+Command: bash tests/fm-watch-triage.test.sh  (real bin/fm-watch.sh poll path against scratch-home fixtures)
+Result: full suite exit code 0; the intent-relevant assertions below all pass.
+
+== Intent requirement -> passing behavioral test ==
+
+[declared paused -> long recheck cadence, never wedge-escalated; blocked: NOT paused]
+ok - a standing declared wait keeps its long cadence across pane redraws, a fresh declaration re-arms one prompt surface, and blocked: never earns the cadence
+ok - a busy pane under a declared pause is rechecked on the long cadence, and lifting the pause restores the wedge escalation
+ok - a declared pause is absorbed on first sight, then re-surfaced as a recheck past the threshold, never wedge-escalated
+
+[handled/acked repeated staleness backs off instead of escalating]
+ok - an acknowledged wedge escalation backs off on an unchanged pane and still fires past the longer interval
+
+[escalation ladder still reaches demand-deep-inspection for an UNpaused, unacked wedge]
+ok - provably-working non-terminal stale is absorbed on first sight, then wedge-escalated past the threshold
+ok - consecutive wedge escalations on the same pane accumulate and demand deep inspection at the threshold
+
+[lifting the pause / becoming active restores normal escalation]
+ok - a pane becoming active again resets the consecutive wedge-escalation counter
+ok - a busy pane under a declared pause is rechecked on the long cadence, and lifting the pause restores the wedge escalation
+
+[dead endpoint still alarms despite a paused: line; two-consecutive-poll confirmation kills teardown-race false alarm]
+ok - a lost endpoint alarms once on its own evidence even under a standing declared pause
+ok - a lost endpoint still alarms under a fractional poll interval instead of aborting on the decimal
+ok - a lost endpoint confirms on the immediately following poll regardless of the wall-clock gap between polls
+ok - an ordinary teardown's single missing poll never alarms as a lost endpoint
