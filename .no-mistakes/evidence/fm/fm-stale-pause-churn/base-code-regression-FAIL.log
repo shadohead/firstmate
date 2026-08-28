@@ -1,0 +1,17 @@
+>>> test_nonterminal_stale_paused_absorbed_then_resurfaced
+ok - a declared pause is absorbed on first sight, then re-surfaced as a recheck past the threshold, never wedge-escalated
+>>> test_declared_pause_survives_a_redrawing_pane
+not ok - the surfaced declaration was not recorded by its own signature
+!!! FAILED (expected, pre-fix): test_declared_pause_survives_a_redrawing_pane
+>>> test_acknowledged_wedge_escalation_backs_off
+not ok - an acknowledged, unchanged pane re-fired on the same short cadence: stale: test:fm-acked (idle 301s, possible wedge, escalation 2)
+!!! FAILED (expected, pre-fix): test_acknowledged_wedge_escalation_backs_off
+>>> test_endpoint_gone_alarms_despite_a_declared_pause
+not ok - a lost endpoint under a declared wait never alarmed: 
+!!! FAILED (expected, pre-fix): test_endpoint_gone_alarms_despite_a_declared_pause
+>>> test_teardown_race_does_not_alarm_as_a_lost_endpoint
+not ok - the first missing poll recorded no pending confirmation: 
+!!! FAILED (expected, pre-fix): test_teardown_race_does_not_alarm_as_a_lost_endpoint
+>>> test_busy_declared_pause_is_rechecked_not_wedge_escalated
+ok - a busy pane under a declared pause is rechecked on the long cadence, and lifting the pause restores the wedge escalation
+BASE REGRESSION RUN DONE

@@ -1,0 +1,29 @@
+>>> test_status_is_paused_classifier
+ok - status_is_paused: only the leading paused verb matches, paused is not captain-relevant, and the two declared-wait verbs stay separable
+>>> test_nonterminal_stale_paused_absorbed_then_resurfaced
+ok - a declared pause is absorbed on first sight, then re-surfaced as a recheck past the threshold, never wedge-escalated
+>>> test_nonterminal_stale_not_working_surfaced
+ok - a not-provably-working non-terminal stale is surfaced immediately (never left to wait out the timer)
+>>> test_nonterminal_paused_rechecks_authoritative_state
+ok - a declared pause is periodically rechecked against authoritative active-run state
+>>> test_paused_authoritative_working_preserves_wedge_timer
+ok - a paused status overridden by authoritative working preserves its wedge timer and escalates
+>>> test_declared_pause_survives_a_redrawing_pane
+ok - a standing declared wait keeps its long cadence across pane redraws, a fresh declaration re-arms one prompt surface, and blocked: never earns the cadence
+>>> test_nonterminal_stale_pause_transitions_reclassify_unchanged_hash
+ok - unchanged stale hashes reclassify when a crew enters or leaves pause
+>>> test_wedge_escalation_marks_demand_deep_inspection_after_threshold
+ok - consecutive wedge escalations on the same pane accumulate and demand deep inspection at the threshold
+>>> test_acknowledged_wedge_escalation_backs_off
+ok - an acknowledged wedge escalation backs off on an unchanged pane and still fires past the longer interval
+>>> test_wedge_escalation_resets_when_pane_becomes_active
+ok - a pane becoming active again resets the consecutive wedge-escalation counter
+>>> test_busy_declared_pause_is_rechecked_not_wedge_escalated
+ok - a busy pane under a declared pause is rechecked on the long cadence, and lifting the pause restores the wedge escalation
+>>> test_endpoint_gone_alarms_despite_a_declared_pause
+ok - a lost endpoint alarms once on its own evidence even under a standing declared pause
+>>> test_endpoint_gone_survives_a_fractional_poll_interval
+ok - a lost endpoint still alarms under a fractional poll interval instead of aborting on the decimal
+>>> test_teardown_race_does_not_alarm_as_a_lost_endpoint
+ok - an ordinary teardown's single missing poll never alarms as a lost endpoint
+ALL FOCUSED TESTS DONE
