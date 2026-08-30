@@ -1,0 +1,29 @@
+========================================================================
+STATUS LOG (what the worker wrote):
+    needs-decision: wave-2 design committed for captain review [key=w2-design]
+    working: wave-2 design revised per panel, ready for captain
+========================================================================
+
+### 1. Real fm-wake-drain.sh OPEN DECISIONS listing:
+------------------------------------------------------------------------
+    OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+    t10 [key=default] (the summary's own [key=...] is prose) needs-decision: wave-2 design committed for captain review [key=w2-design]
+    OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>' - the key is the one bracketed above, never one inside a summary
+------------------------------------------------------------------------
+
+### 2. Answering with the misleading PROSE token [w2-design] - refused:
+------------------------------------------------------------------------
+    error: --resolve-key 'w2-design': no open decision or blocker with that key in /var/folders/j6/tpr5xxbj73lcxcl008r78q940000gn/T/tmp.CzSQE2aXNK/home/state/t10.status, and no captain-held task 'w2-design' or 't10-decision-w2-design' still open (already closed or mistyped). Open decision keys in that log right now: default. A [key=...] token inside a decision's summary is prose, not its key. Resend with the key the OPEN DECISIONS listing brackets, or without that key; nothing was sent.
+    [refused; inbox record delivered? no]
+------------------------------------------------------------------------
+
+### 3. Answering with the key the listing NAMES (default) - closes it:
+------------------------------------------------------------------------
+    closing line written to the status log:
+      resolved [key=default]: answered: two-holder drag, cut order ruled
+------------------------------------------------------------------------
+
+### 4. Real fm-wake-drain.sh after the answer - no open decision:
+------------------------------------------------------------------------
+    (no OPEN DECISIONS section - the decision is closed)
+========================================================================
