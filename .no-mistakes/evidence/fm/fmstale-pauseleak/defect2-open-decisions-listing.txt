@@ -1,0 +1,23 @@
+=== DEFECT 2: the OPEN DECISIONS listing now names the answerable key (real fm-wake-drain.sh) ===
+
+# The live 2026-08-29 shape reproduced: a needs-decision with NO stated key whose
+# summary carries a trailing prose [key=w2-design] token. Under the decision-key
+# grammar a trailing token is prose, so the decision is genuinely open under "default".
+
+--- worker status log (folded by the drain, not just the latest line) ---
+needs-decision: wave-2 design committed for captain review [key=w2-design]
+working: wave-2 design revised per panel, ready for captain
+
+$ fm-wake-drain.sh
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+t10 [key=default] (the summary's own [key=...] is prose) needs-decision: wave-2 design committed for captain review [key=w2-design]
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>' - the key is the one bracketed above, never one inside a summary
+
+# Before the fix the listing reprinted the misleading [key=w2-design] token while
+# fm-send --resolve-key w2-design refused (the decision was open under "default").
+# Now the listing names [key=default], flags the summary token as prose, and the
+# footer states the answerable key is the bracketed one, never one inside a summary.
+# The fm-send side (refuses a not-open key listing the open keys; answers "default")
+# is exercised by the green tests/fm-send-resolve-key.test.sh, which drives the real
+# fm-send from a temp home; fm-send refuses to run from inside this gate worktree by
+# design, so it cannot be shown here directly.

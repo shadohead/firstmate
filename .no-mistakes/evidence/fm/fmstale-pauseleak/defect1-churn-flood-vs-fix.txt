@@ -1,0 +1,11 @@
+=== DEFECT 1: bare stale wakes leaking past a declared wait on a churning pane ===
+# Real fm-watch.sh driven over 5 rounds; each round the harness footer redraws
+# (new pane hash). We count the durable wake-queue records the watcher actually
+# emitted for the window, and the BARE un-annotated 'stale: <window>' ones.
+
+### UNFIXED watcher (bin/fm-watch.sh @ 57ece1dd, before the transition-poll fix):
+not ok - a declared pause on a churning pane queued 5 bare stale wakes across 5 new pane hashes
+
+### FIXED watcher (target 13346ac6):
+ok - a declared pause on a churning pane surfaces at most once per declaration, never once per pane hash
+ok - an open decision absorbs a churning pane the same way, and stops absorbing once it is answered
