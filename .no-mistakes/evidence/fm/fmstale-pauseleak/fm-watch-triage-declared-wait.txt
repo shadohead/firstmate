@@ -1,0 +1,33 @@
+Evidence: real fm-watch.sh watcher drives the two head-commit (ebc442b0) behaviors
+Suite: bin/fm-test-run.sh tests/fm-watch-triage.test.sh  (darwin, per-script)
+
+Core behavioral results (both drive a real fm-watch.sh subprocess over churning-pane
+fixtures and count durable wake-queue records):
+
+  ok - a decision answered and identically reopened surfaces its one-shot again, exactly once
+       (test_open_decision_identical_reopen_surfaces_again)
+       -> proves an identically-reopened decision is a NEW gate: exactly one bare stale
+          wake before the reopen, exactly one more after -- the reopen-identity fix.
+
+  ok - a failed enqueue publishes no one-shot suppressor, so the initial stale wake still
+       surfaces once the queue is repaired
+       (test_declared_wait_one_shot_survives_a_failed_enqueue)
+       -> proves the suppressor is published only AFTER fm_wake_append succeeds: a sighting
+          with a broken .wake-queue.seq leaves no .paused-surfaced marker, and the repaired
+          queue then receives the initial bare stale wake exactly once (Codex P2 fix).
+
+Supporting declared-wait / pause / stale / secondmate cadence cases (all green):
+  ok - a declared pause on a churning pane surfaces at most once per declaration, never once per pane hash
+  ok - an open decision absorbs a churning pane the same way, and stops absorbing once it is answered
+  ok - an open decision keeps one identity across unrelated status appends, buying no further bare wake
+  ok - an open decision keeps its one-shot across a busy interlude, buying no further bare wake
+  ok - exited declared-pause and captain-held panes use bounded pause cadence while a live decision gate still surfaces once
+  ok - a declared paused secondmate re-surfaces on the bounded normal-mode cadence
+  ok - a captain-held secondmate re-surfaces on the bounded normal-mode cadence
+
+Only failure (documented OUT OF SCOPE, machine-local darwin, passes on Linux CI):
+  not ok - the fixture captured no process-event result
+       -> helper seed_captured_procevent_result drives an OS process-event reconcile
+          (pe_case ... reconcile). Untouched by this change; reproduces on the base branch.
+
+FM_TEST_SUMMARY total=1 failed=1 skipped_gate=0
